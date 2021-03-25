@@ -22,7 +22,7 @@ var myMap = L.map("mapid", {
 
 // Using D3 to pull in data from URL
 d3.json(queryUrl, function(data) {
-  function markerSize(magnitude) {
+  function circleSize(magnitude) {
     if (magnitude === 0) {
       return 1;
     }
@@ -33,16 +33,16 @@ d3.json(queryUrl, function(data) {
     return {
       opacity: 1,
       fillOpacity: 1,
-      fillColor: chooseColor(feature.properties.mag),
+      fillColor: magnitudeColor(feature.properties.mag),
       color: "#000000",
-      radius: markerSize(feature.properties.mag),
+      radius: circleSize(feature.properties.mag),
       stroke: true,
       weight: 0.5
     };
   }
 
   // Magnitude levels
-  function chooseColor(magnitude) {
+  function magnitudeColor(magnitude) {
     switch (true) {
     case magnitude > 5:
         return "#581845";
@@ -84,7 +84,7 @@ d3.json(queryUrl, function(data) {
 
     for (var i = 0; i < magnitudeLevels.length; i++) {
         div.innerHTML +=
-            '<i style="background: ' + chooseColor(magnitudeLevels[i] + 1) + '"></i> ' +
+            '<i style="background: ' + magnitudeColor(magnitudeLevels[i] + 1) + '"></i> ' +
             magnitudeLevels[i] + (magnitudeLevels[i + 1] ? '&ndash;' + magnitudeLevels[i + 1] + '<br>' : '+');
     }
     return div;
